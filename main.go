@@ -7,7 +7,7 @@ import (
     "github.com/raymondragon/golib"
 )
 
-var rawURL = flag.String("url", "", "http(s)://user:pass@host:port")
+var rawURL = flag.String("url", "", "http(s)://user:pass@host:port/path#dir")
 
 func main() {
     flag.Parse()
@@ -15,7 +15,11 @@ func main() {
     if err != nil {
         log.Printf("[WARN] %v", err)
     }
-    proxyHandler := golib.ProxyHandler(parsedURL.Hostname, parsedURL.Username, parsedURL.Password, nil)
+    webdavHandler := golib.WebdavHandler(parsedURL.Fragment, parsedURL.Path)
+    proxyHandler := golib.ProxyHandler(parsedURL.Hostname, parsedURL.Username, parsedURL.Password, webdavHandler)
+    if parsedURL.Path == "" {
+        proxyHandler = golib.ProxyHandler(parsedURL.Hostname, parsedURL.Username, parsedURL.Password, nil)
+    }
     switch parsedURL.Scheme {
     case "http":
         log.Printf("[INFO] %v", *rawURL)
