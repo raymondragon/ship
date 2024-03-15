@@ -17,7 +17,7 @@ func main() {
     }
     webdavHandler := golib.WebdavHandler(parsedURL.Fragment, parsedURL.Path)
     proxyHandler := golib.ProxyHandler(parsedURL.Hostname, parsedURL.Username, parsedURL.Password, webdavHandler)
-    if parsedURL.Path == "" {
+    if parsedURL.Path == "" || parsedURL.Path == "/" {
         proxyHandler = golib.ProxyHandler(parsedURL.Hostname, parsedURL.Username, parsedURL.Password, nil)
     }
     switch parsedURL.Scheme {
