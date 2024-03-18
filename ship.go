@@ -11,7 +11,7 @@ var rawURL = flag.String("url", "", "http(s)://user:pass@host:port/path#dir")
 
 func main() {
     flag.Parse()
-    if *rawURL == nil {
+    if *rawURL == "" {
         flag.Usage()
         log.Fatalf("[ERRO] %v", "Invalid Flag")
     }
